@@ -1,0 +1,588 @@
+/* Mom's landing page — gold and white, mature and elegant.
+   Palette (Color Hunt, as sent by Wisdom):
+   white / light grey #dbdbdb, bright gold #f0a500,
+   deep gold #cf7500, black #000000
+   Fonts: Great Vibes ONLY for "Happy Birthday Mom!" (kept as he likes it).
+   Everything else is a MODERN serif — Playfair Display (700) for the
+   main heading, Fraunces (500 / 600 / 700, with thick-thin contrast)
+   for the message, quote and tape. That weight contrast is what makes
+   the parts look different from each other, instead of all one thin
+   serif. No handwritten script and no modern sans-serif — those felt
+   too young for a grown woman.
+   Background: CREAM now, darker than the ivory before — #f6e7c1, so it
+   is clearly cream with gold, not plain white.
+   Pattern: #4 DIAMOND LATTICE — picked by Wisdom Nov 8.
+   File: pattern-diamond.webp, beside landing.html.
+   It is a fixed background layer at low opacity (0.18), so the gold
+   diamonds show on the cream without fighting the text or photo.
+   One shared stylesheet for all Mom pages. Song is not in here —
+   the shell will play the continuous song, once it is decided. */
+
+:root {
+  --white: #ffffff;
+  --cream: #f6e7c1;
+  --cream-dark: #eed9a4;
+  --ivory: #fdf9f0;
+  --light-grey: #dbdbdb;
+  --gold: #f0a500;
+  --deep-gold: #cf7500;
+  --black: #000000;
+  --ink: #111111;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.1rem;
+  color: var(--ink);
+  background: var(--cream);
+  background-image:
+    radial-gradient(600px 300px at 8% 0%, rgba(240, 165, 0, 0.28), transparent 70%),
+    radial-gradient(600px 300px at 92% 100%, rgba(207, 117, 0, 0.24), transparent 70%),
+    linear-gradient(180deg, #f8ecc9 0%, #f6e7c1 55%, #eed9a4 100%);
+}
+
+/* ---- Diamond lattice pattern background, low opacity ---- */
+.pattern-bg {
+  position: fixed;
+  inset: 0;
+  background-image: url("pattern-diamond.webp");
+  background-size: 320px;
+  background-repeat: repeat;
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Thin gold bar across the very top of the page */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--deep-gold), var(--gold), var(--deep-gold));
+  z-index: 2;
+}
+
+/* ---- Floating gold hearts and sparkles ---- */
+.hearts {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hearts span {
+  position: absolute;
+  left: var(--x);
+  bottom: -48px;
+  font-size: var(--s);
+  color: var(--gold);
+  opacity: 0;
+  text-shadow: 0 0 12px rgba(240, 165, 0, 0.55);
+  animation: floatUp var(--d) linear infinite;
+  animation-delay: var(--dl);
+}
+
+/* Every second heart / sparkle is the deeper gold, so they are not all flat */
+.hearts span:nth-child(even) {
+  color: var(--deep-gold);
+  text-shadow: 0 0 12px rgba(207, 117, 0, 0.5);
+}
+
+@keyframes floatUp {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.85; }
+  90%  { opacity: 0.7; }
+  100% { transform: translateY(-112vh) rotate(24deg); opacity: 0; }
+}
+
+/* ---- Gold flourishes at the sides, laptop only ---- */
+.side-rail {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  letter-spacing: 18px;
+  font-size: 50px;
+  color: var(--gold);
+  text-shadow: 0 0 10px rgba(240, 165, 0, 0.5);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.side-left { left: 20px; }
+.side-right { right: 20px; }
+
+/* ---- Main landing screen, inside a double gold frame ---- */
+.screen {
+  position: relative;
+  z-index: 1;
+  max-width: min(880px, 94vw);
+  margin: 28px auto;
+  padding: 44px 28px 48px;
+  text-align: center;
+  background: rgba(255, 248, 230, 0.88);
+  border: 1px solid var(--gold);
+  outline: 1px solid rgba(207, 117, 0, 0.4);
+  outline-offset: 8px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-family: "Great Vibes", cursive;
+  font-weight: 400;
+  font-size: clamp(3rem, 8vw, 4.8rem);
+  line-height: 1.1;
+  color: var(--deep-gold);
+  margin: 8px 0 18px;
+  text-shadow: 0 2px 0 #ffffff, 0 6px 22px rgba(240, 165, 0, 0.35);
+}
+
+/* Gold line — heart — line, under the title */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 420px;
+  margin: 0 auto 30px;
+  color: var(--gold);
+  font-size: 18px;
+}
+
+.divider span {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+/* ---- Photo frame — a rectangle, near-square, NOT a circle ---- */
+.photo-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 30px;
+}
+
+.photo {
+  position: relative;
+  width: min(380px, 80vw);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--light-grey);
+  border: 5px solid var(--gold);
+  outline: 2px solid var(--deep-gold);
+  outline-offset: 6px;
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18), 0 0 32px rgba(240, 165, 0, 0.45);
+}
+
+/* The picture of Mom. Save her photo as mom-photo.jpg, beside landing.html.
+   Until then this frame shows the light-grey placeholder, not a photo. */
+.mom-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.tape {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  max-width: 92%;
+  padding: 6px 14px;
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--black);
+  background: var(--gold);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* ---- Birthday messages (his words, kept as sent) ---- */
+.text {
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* "Wishing you a wonderful birthday..." — now a proper serif heading,
+   larger and more settled than before, so it reads as the main message. */
+h2.text {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 4vw, 1.9rem);
+  line-height: 1.4;
+  color: var(--ink);
+  margin: 0 auto 20px;
+}
+
+/* "My Number 1 and biggest prayer..." — now an elegant serif quote,
+   smaller than the heading above it, with a gold rule above it
+   so the two messages do not run into each other. */
+h3.text {
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.35rem, 3.5vw, 1.65rem);
+  line-height: 1.5;
+  color: #333333;
+  margin: 0 auto;
+  padding-top: 20px;
+  border-top: 1px solid rgba(207, 117, 0, 0.4);
+}
+
+/* ---- "Tap to continue" button — DESIGNED, not a default button ----
+   Black button, gold text, gold border, gold shadow ring.
+   Rectangle with rounded edges (14px), big and bold, with an arrow.
+   If it still looks like a plain grey browser button in your preview,
+   the stylesheet is NOT loading — check style.css is beside landing.html
+   and refresh Live Preview. A styled button never looks grey/default. */
+.continue-btn {
+  display: inline-block;
+  margin-top: 34px;
+  padding: 17px 46px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: var(--black);
+  border: 2px solid var(--gold);
+  border-radius: 14px;
+  box-shadow: 0 0 0 4px rgba(240, 165, 0, 0.25), 0 12px 28px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.continue-btn::after {
+  content: "  \2192";
+  color: var(--gold);
+}
+
+.continue-btn:hover {
+  transform: translateY(-2px);
+  background: #1a1a1a;
+  box-shadow: 0 0 0 5px rgba(240, 165, 0, 0.35), 0 16px 32px rgba(0, 0, 0, 0.4);
+}
+
+.continue-btn:active {
+  transform: translateY(0);
+}
+
+/* ---- Phone ---- */
+@media (max-width: 640px) {
+  .side-rail { display: none; }
+  .screen { margin: 18px auto; padding: 32px 16px 36px; }
+  .title { font-size: clamp(2.6rem, 11vw, 3.2rem); }
+  .photo { width: min(340px, 84vw); }
+  .tape { font-size: 1.15rem; }
+  .continue-btn { width: min(320px, 100%); padding: 14px 24px; }
+}
+
+/* Hide the side rails on narrower laptops too, so they never crowd the frame */
+@media (max-width: 1000px) {
+  .side-rail { display: none; }
+}
+
+/* ============================================================
+   HUB + TILE PAGES (added Nov 9, 2026)
+   Hub: 6 tiles in Wisdom's order, LOML last and full-width.
+   Tile pages: 3 pictures + 1 video each, except LOML which has
+   2 videos and a letter, no pictures.
+   No JavaScript change was needed: the shared script.js already
+   handles every <video> (pause/resume the shell song) and every
+   [data-go] button, on any page, so hub and tiles just use those.
+   ============================================================ */
+
+/* ---- Hub page ---- */
+.hub-title {
+  font-family: "Great Vibes", cursive;
+  font-weight: 400;
+  font-size: clamp(2.8rem, 7vw, 4.2rem);
+  line-height: 1.1;
+  color: var(--deep-gold);
+  margin: 8px 0 12px;
+  text-shadow: 0 2px 0 #ffffff, 0 6px 22px rgba(240, 165, 0, 0.35);
+}
+
+.hub-sub {
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.25rem, 3.5vw, 1.6rem);
+  line-height: 1.4;
+  color: #333333;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.hub-count {
+  margin-top: 16px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--deep-gold);
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 28px;
+  text-align: left;
+}
+
+.tile {
+  display: block;
+  padding: 22px 20px;
+  text-decoration: none;
+  color: var(--ink);
+  background: #fffdf6;
+  border: 1px solid var(--gold);
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.tile:hover {
+  border-color: var(--deep-gold);
+  transform: translateY(-2px);
+}
+
+.tile-num {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--deep-gold);
+}
+
+.tile-name {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  margin-top: 6px;
+  color: var(--black);
+}
+
+.tile-note {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1rem;
+  color: #555555;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+/* LOML is the last tile and spans the full width, like the
+   final-letter tile did on Keziah's hub. */
+.tile-final {
+  grid-column: 1 / -1;
+  text-align: center;
+  background: var(--black);
+  border: 2px solid var(--gold);
+}
+
+.tile-final .tile-name { color: var(--gold); }
+.tile-final .tile-note,
+.tile-final .tile-num { color: rgba(240, 165, 0, 0.85); }
+
+/* ---- Tile pages: picture wall + video ---- */
+.page-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 6vw, 3rem);
+  line-height: 1.2;
+  color: var(--black);
+  margin: 8px 0 12px;
+}
+
+.page-sub {
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.2rem;
+  line-height: 1.4;
+  color: #333333;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.pic-wall {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 28px;
+}
+
+/* No cropping: the whole picture shows, like Keziah's walls. */
+.pic {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  background: #fffdf6;
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  display: block;
+}
+
+.video-row { margin-top: 20px; }
+
+.tile-video {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  border: 3px solid var(--gold);
+  border-radius: 14px;
+  background: #000000;
+  height: 650px;
+  object-fit: cover;
+}
+
+/* ---- LOML letter, same shape as Keziah's final letter ----
+   Deep gold envelope behind cream letter paper, gold ribbon,
+   Great Vibes heading, serif body. Colours are Mom's gold,
+   not Keziah's red. The letter text is a PLACEHOLDER only —
+   Wisdom must replace it with his own words before Nov 10. */
+.letter-wrap {
+  position: relative;
+  margin-top: 36px;
+  text-align: left;
+}
+
+.letter-envelope {
+  position: absolute;
+  left: 50%;
+  top: 18px;
+  transform: translateX(-50%) rotate(-1.5deg);
+  width: min(820px, 96vw);
+  height: 1080px;
+  max-height: 130%;
+  background: linear-gradient(160deg, #b97e10, #8a5a00 60%, #6b4500);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  border-radius: 4px;
+  z-index: 0;
+}
+
+.letter-envelope::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 220px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.letter-ribbon {
+  position: absolute;
+  left: -12px;
+  top: 120px;
+  width: 60px;
+  height: 260px;
+  background: linear-gradient(90deg, #a86a00, #f0a500, #cf7500);
+  transform: rotate(8deg);
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+
+.letter-paper {
+  position: relative;
+  z-index: 1;
+  margin: 48px auto 0;
+  padding: 56px 56px 64px;
+  background: #fdf8ec;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  border-radius: 2px;
+}
+
+.letter-script {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(2.6rem, 7vw, 4rem);
+  line-height: 1.1;
+  color: var(--deep-gold);
+  text-align: right;
+  margin-bottom: 8px;
+}
+
+.letter-sub {
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-size: 1.4rem;
+  color: #8a5a00;
+  text-align: right;
+  margin-bottom: 28px;
+}
+
+.letter-greeting {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #2a1410;
+}
+
+.letter-body {
+  font-size: 1.35rem;
+  line-height: 1.65;
+  margin-bottom: 18px;
+  color: #2a1410;
+}
+
+.letter-signature {
+  margin-top: 36px;
+  text-align: right;
+  font-family: "Great Vibes", cursive;
+  font-size: 2.2rem;
+  color: var(--deep-gold);
+  line-height: 1.2;
+}
+
+.letter-signature small {
+  display: block;
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  color: #8a5a00;
+}
+
+.back-link {
+  display: block;
+  text-align: center;
+  margin-top: 36px;
+  color: var(--deep-gold);
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+/* ---- Hub + tiles + letter on phones ---- */
+@media (max-width: 640px) {
+  .tiles { grid-template-columns: 1fr; }
+  .pic-wall { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .pic { height: 160px; }
+  .letter-paper { padding: 36px 26px 44px; margin-top: 32px; }
+  .letter-body { font-size: 1.2rem; }
+  .letter-envelope { top: 8px; }
+  .letter-ribbon { width: 36px; height: 180px; top: 90px; }
+}
